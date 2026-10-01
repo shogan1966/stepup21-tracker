@@ -3,236 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="stepUP21">
 <meta name="theme-color" content="#0a0a0a">
 <title>stepUP21</title>
-<link rel="manifest" href="manifest.json">
 <style>
   :root {
-    --black: #0a0a0a;
-    --white: #f5f5f0;
-    --grey-1: #1a1a1a;
-    --grey-2: #2a2a2a;
-    --grey-3: #444;
-    --grey-4: #888;
-    --grey-5: #bbb;
-    --green: #00c853;
-    --green-dim: #004d20;
-    --accent: #00c853;
-    --red: #ff3d00;
+    --black: #0a0a0a; --white: #f5f5f0; --grey-1: #1a1a1a; --grey-2: #2a2a2a;
+    --grey-3: #444; --grey-4: #888; --grey-5: #bbb; --green: #00c853;
+    --green-dim: #004d20; --accent: #00c853; --red: #ff3d00;
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   * { box-sizing: inherit; margin: 0; padding: 0; }
-  html, body {
-    height: 100%;
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-  }
+  html, body { height: 100%; background: var(--black); color: var(--white); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
   body { display: flex; flex-direction: column; min-height: 100%; }
-
-  .header {
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    background: var(--black);
-    border-bottom: 1px solid var(--grey-2);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 100;
-  }
+  .header { position: sticky; top: env(safe-area-inset-top,0px); background: var(--black); border-bottom: 1px solid var(--grey-2); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 100; }
   .header-left { display: flex; flex-direction: column; gap: 2px; }
   .logo { font-size: 13px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
   .day-label { font-size: 11px; color: var(--grey-4); letter-spacing: 0.05em; }
-  .streak-pill {
-    background: var(--green-dim);
-    color: var(--green);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 4px 10px;
-    border-radius: 20px;
-  }
-
-  .nav {
-    display: flex;
-    border-bottom: 1px solid var(--grey-2);
-    background: var(--black);
-  }
-  .nav-btn {
-    flex: 1;
-    background: none;
-    border: none;
-    color: var(--grey-4);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 12px 4px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
-  }
+  .streak-pill { background: var(--green-dim); color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 20px; }
+  .nav { display: flex; border-bottom: 1px solid var(--grey-2); background: var(--black); }
+  .nav-btn { flex: 1; background: none; border: none; color: var(--grey-4); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 4px; cursor: pointer; border-bottom: 2px solid transparent; }
   .nav-btn.active { color: var(--white); border-bottom-color: var(--accent); }
-
-  .main {
-    flex: 1;
-    padding: 24px 20px;
-    max-width: 480px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
+  .main { flex: 1; padding: 24px 20px; max-width: 480px; width: 100%; margin: 0 auto; }
   .view { display: none; }
   .view.active { display: block; }
-
-  .section-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--grey-4);
-    margin-bottom: 20px;
-  }
-
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-4); margin-bottom: 20px; }
   .q-block { margin-bottom: 32px; }
-  .q-text {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--white);
-    margin-bottom: 14px;
-  }
-  .q-number {
-    font-size: 11px;
-    color: var(--grey-4);
-    margin-bottom: 6px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-  }
-
+  .q-text { font-size: 16px; font-weight: 500; line-height: 1.4; color: var(--white); margin-bottom: 14px; }
+  .q-number { font-size: 11px; color: var(--grey-4); margin-bottom: 6px; font-weight: 600; letter-spacing: 0.05em; }
   .scale { display: flex; gap: 8px; }
-  .scale-btn {
-    flex: 1;
-    aspect-ratio: 1;
-    background: var(--grey-1);
-    border: 1px solid var(--grey-2);
-    border-radius: 8px;
-    color: var(--grey-5);
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.1s, border-color 0.1s, color 0.1s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .scale-btn:active { transform: scale(0.95); }
+  .scale-btn { flex: 1; aspect-ratio: 1; background: var(--grey-1); border: 1px solid var(--grey-2); border-radius: 8px; color: var(--grey-5); font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
   .scale-btn.selected { background: var(--accent); border-color: var(--accent); color: var(--black); }
-
   .scale-labels { display: flex; justify-content: space-between; margin-top: 8px; }
   .scale-label { font-size: 10px; color: var(--grey-4); line-height: 1.3; max-width: 60px; }
   .scale-label:last-child { text-align: right; }
-
-  .anchor-box {
-    background: var(--grey-1);
-    border: 1px solid var(--grey-2);
-    border-radius: 8px;
-    padding: 12px 14px;
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--grey-5);
-    line-height: 1.5;
-    display: none;
-  }
+  .anchor-box { background: var(--grey-1); border: 1px solid var(--grey-2); border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: 12px; color: var(--grey-5); line-height: 1.5; display: none; }
   .anchor-box.visible { display: block; }
   .anchor-item { margin-bottom: 4px; }
   .anchor-item:last-child { margin-bottom: 0; }
   .anchor-val { color: var(--accent); font-weight: 700; margin-right: 6px; }
-
-  .free-input {
-    width: 100%;
-    background: var(--grey-1);
-    border: 1px solid var(--grey-2);
-    border-radius: 8px;
-    color: var(--white);
-    font-size: 16px;
-    padding: 14px;
-    resize: none;
-    font-family: inherit;
-    line-height: 1.4;
-    outline: none;
-    transition: border-color 0.15s;
-  }
+  .free-input { width: 100%; background: var(--grey-1); border: 1px solid var(--grey-2); border-radius: 8px; color: var(--white); font-size: 16px; padding: 14px; resize: none; font-family: inherit; line-height: 1.4; outline: none; }
   .free-input:focus { border-color: var(--accent); }
   .free-input::placeholder { color: var(--grey-3); }
-
-  .submit-btn {
-    width: 100%;
-    padding: 18px;
-    background: var(--accent);
-    border: none;
-    border-radius: 10px;
-    color: var(--black);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    margin-top: 8px;
-    -webkit-tap-highlight-color: transparent;
-    transition: opacity 0.15s;
-  }
+  .submit-btn { width: 100%; padding: 18px; background: var(--accent); border: none; border-radius: 10px; color: var(--black); font-size: 15px; font-weight: 700; letter-spacing: 0.05em; cursor: pointer; margin-top: 8px; -webkit-tap-highlight-color: transparent; }
   .submit-btn:active { opacity: 0.85; }
-
-  .divider { height: 1px; background: var(--grey-2); margin: 28px 0; }
-
-  .dash-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  .dash-card {
-    background: var(--grey-1);
-    border: 1px solid var(--grey-2);
-    border-radius: 10px;
-    padding: 16px;
-  }
-  .dash-card-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--grey-4);
-    margin-bottom: 8px;
-  }
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .dash-card { background: var(--grey-1); border: 1px solid var(--grey-2); border-radius: 10px; padding: 16px; }
+  .dash-card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey-4); margin-bottom: 8px; }
   .dash-card-value { font-size: 32px; font-weight: 700; color: var(--white); line-height: 1; }
   .dash-card-value.green { color: var(--green); }
   .dash-card-sub { font-size: 11px; color: var(--grey-4); margin-top: 4px; }
-
-  .sessions-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--grey-4);
-    margin-bottom: 14px;
-  }
-  .session-row {
-    display: flex;
-    align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--grey-2);
-    gap: 14px;
-  }
+  .sessions-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-4); margin-bottom: 14px; }
+  .session-row { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--grey-2); gap: 14px; }
   .session-day { font-size: 11px; font-weight: 700; color: var(--grey-4); width: 36px; flex-shrink: 0; }
   .session-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .session-dot.complete { background: var(--green); }
@@ -240,95 +67,19 @@
   .session-dot.pending { background: var(--grey-3); }
   .session-meta { flex: 1; font-size: 13px; color: var(--grey-5); }
   .session-score { font-size: 13px; font-weight: 700; color: var(--white); }
-
-  .export-btn {
-    width: 100%;
-    padding: 14px;
-    background: none;
-    border: 1px solid var(--grey-3);
-    border-radius: 10px;
-    color: var(--grey-5);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 16px;
-    letter-spacing: 0.05em;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .export-btn:active { opacity: 0.7; }
-
-  .toast {
-    position: fixed;
-    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--grey-1);
-    border: 1px solid var(--grey-2);
-    border-radius: 10px;
-    padding: 14px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-    z-index: 999;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    white-space: nowrap;
-  }
+  .export-btn { width: 100%; padding: 14px; background: none; border: 1px solid var(--grey-3); border-radius: 10px; color: var(--grey-5); font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+  .toast { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom,0px)); left: 50%; transform: translateX(-50%) translateY(80px); background: var(--grey-1); border: 1px solid var(--grey-2); border-radius: 10px; padding: 14px 20px; font-size: 13px; font-weight: 600; color: var(--white); z-index: 999; transition: transform 0.25s; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { border-color: var(--green); color: var(--green); }
-
   .empty { text-align: center; padding: 48px 20px; color: var(--grey-4); font-size: 14px; line-height: 1.6; }
   .empty-icon { font-size: 32px; margin-bottom: 12px; }
-
   .trend-row { display: flex; gap: 4px; margin-bottom: 24px; }
   .trend-cell { flex: 1; height: 6px; border-radius: 3px; background: var(--grey-2); }
   .trend-cell.done { background: var(--green); }
   .trend-cell.missed { background: var(--red); opacity: 0.5; }
-
-  .install-bar {
-    display: none;
-    position: fixed;
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    left: 16px; right: 16px;
-    background: var(--grey-1);
-    border: 1px solid var(--accent);
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    z-index: 200;
-  }
-  .install-bar.hidden { display: none !important; }
-  .install-text { font-size: 13px; color: var(--white); line-height: 1.3; }
-  .install-btn {
-    background: var(--accent);
-    border: none;
-    border-radius: 8px;
-    color: var(--black);
-    font-size: 13px;
-    font-weight: 700;
-    padding: 10px 16px;
-    cursor: pointer;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .install-dismiss {
-    background: none;
-    border: none;
-    color: var(--grey-4);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="header-left">
     <div class="logo">stepUP21</div>
@@ -336,490 +87,164 @@
   </div>
   <div class="streak-pill" id="streakPill">Day —</div>
 </div>
-
 <div class="nav">
   <button class="nav-btn active" data-view="pre" onclick="switchView('pre')">Before</button>
   <button class="nav-btn" data-view="post" onclick="switchView('post')">After</button>
   <button class="nav-btn" data-view="eod" onclick="switchView('eod')">End of Day</button>
   <button class="nav-btn" data-view="dash" onclick="switchView('dash')">Progress</button>
 </div>
-
 <div class="main">
 
-  <!-- PRE SESSION -->
+  <!-- PRE -->
   <div class="view active" id="view-pre">
     <div class="section-label">Before your session</div>
-
     <div class="q-block">
-      <div class="q-number">Q1</div>
-      <div class="q-text">How did you sleep last night?</div>
-      <div class="scale" id="scale-pre-1">
-        <button class="scale-btn" data-val="1" onclick="selectScale('pre-1',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('pre-1',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('pre-1',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('pre-1',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('pre-1',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Barely slept, running on empty</span>
-        <span class="scale-label">Deep and full, feel restored</span>
-      </div>
-      <div class="anchor-box" id="anchor-pre-1">
-        <div class="anchor-item"><span class="anchor-val">1</span>Barely slept, running on empty</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Poor, feel it this morning</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Adequate, functional</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Good, rested</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Deep and full, feel restored</div>
-      </div>
+      <div class="q-number">Q1</div><div class="q-text">How did you sleep last night?</div>
+      <div class="scale" id="scale-pre-1"><button class="scale-btn" onclick="sel('pre-1',1)">1</button><button class="scale-btn" onclick="sel('pre-1',2)">2</button><button class="scale-btn" onclick="sel('pre-1',3)">3</button><button class="scale-btn" onclick="sel('pre-1',4)">4</button><button class="scale-btn" onclick="sel('pre-1',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Barely slept</span><span class="scale-label">Deep and restored</span></div>
+      <div class="anchor-box" id="anchor-pre-1"><div class="anchor-item"><span class="anchor-val">1</span>Barely slept, running on empty</div><div class="anchor-item"><span class="anchor-val">2</span>Poor, feel it this morning</div><div class="anchor-item"><span class="anchor-val">3</span>Adequate, functional</div><div class="anchor-item"><span class="anchor-val">4</span>Good, rested</div><div class="anchor-item"><span class="anchor-val">5</span>Deep and full, feel restored</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q2</div>
-      <div class="q-text">How is your energy right now?</div>
-      <div class="scale" id="scale-pre-2">
-        <button class="scale-btn" data-val="1" onclick="selectScale('pre-2',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('pre-2',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('pre-2',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('pre-2',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('pre-2',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Empty, this will be a grind</span>
-        <span class="scale-label">Charged, ready to go</span>
-      </div>
-      <div class="anchor-box" id="anchor-pre-2">
-        <div class="anchor-item"><span class="anchor-val">1</span>Empty, this will be a grind</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Low, below par</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Functional, baseline normal</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Good, feeling capable</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Charged, ready to go</div>
-      </div>
+      <div class="q-number">Q2</div><div class="q-text">How is your energy right now?</div>
+      <div class="scale" id="scale-pre-2"><button class="scale-btn" onclick="sel('pre-2',1)">1</button><button class="scale-btn" onclick="sel('pre-2',2)">2</button><button class="scale-btn" onclick="sel('pre-2',3)">3</button><button class="scale-btn" onclick="sel('pre-2',4)">4</button><button class="scale-btn" onclick="sel('pre-2',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Empty, will be a grind</span><span class="scale-label">Charged, ready</span></div>
+      <div class="anchor-box" id="anchor-pre-2"><div class="anchor-item"><span class="anchor-val">1</span>Empty, this will be a grind</div><div class="anchor-item"><span class="anchor-val">2</span>Low, below par</div><div class="anchor-item"><span class="anchor-val">3</span>Functional, baseline normal</div><div class="anchor-item"><span class="anchor-val">4</span>Good, feeling capable</div><div class="anchor-item"><span class="anchor-val">5</span>Charged, ready to go</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q3</div>
-      <div class="q-text">How ready are you to show up today?</div>
-      <div class="scale" id="scale-pre-3">
-        <button class="scale-btn" data-val="1" onclick="selectScale('pre-3',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('pre-3',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('pre-3',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('pre-3',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('pre-3',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Had to force myself out the door</span>
-        <span class="scale-label">Genuinely wanted this today</span>
-      </div>
-      <div class="anchor-box" id="anchor-pre-3">
-        <div class="anchor-item"><span class="anchor-val">1</span>Had to force myself out the door</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Significant resistance, almost didn't</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Neutral, just doing it</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Willing and present</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Genuinely wanted this today</div>
-      </div>
+      <div class="q-number">Q3</div><div class="q-text">How ready are you to show up today?</div>
+      <div class="scale" id="scale-pre-3"><button class="scale-btn" onclick="sel('pre-3',1)">1</button><button class="scale-btn" onclick="sel('pre-3',2)">2</button><button class="scale-btn" onclick="sel('pre-3',3)">3</button><button class="scale-btn" onclick="sel('pre-3',4)">4</button><button class="scale-btn" onclick="sel('pre-3',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Had to force it</span><span class="scale-label">Genuinely wanted this</span></div>
+      <div class="anchor-box" id="anchor-pre-3"><div class="anchor-item"><span class="anchor-val">1</span>Had to force myself out the door</div><div class="anchor-item"><span class="anchor-val">2</span>Significant resistance, almost didn't</div><div class="anchor-item"><span class="anchor-val">3</span>Neutral, just doing it</div><div class="anchor-item"><span class="anchor-val">4</span>Willing and present</div><div class="anchor-item"><span class="anchor-val">5</span>Genuinely wanted this today</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q4</div>
-      <div class="q-text">One word describing your state right now.</div>
+      <div class="q-number">Q4</div><div class="q-text">One word describing your state right now.</div>
       <input class="free-input" type="text" id="pre-word" placeholder="e.g. ready, tired, focused…" maxlength="30">
     </div>
-
     <button class="submit-btn" onclick="saveSection('pre')">Save — start your session</button>
   </div>
 
-  <!-- POST SESSION -->
+  <!-- POST -->
   <div class="view" id="view-post">
     <div class="section-label">After your session</div>
-
     <div class="q-block">
-      <div class="q-number">Q5</div>
-      <div class="q-text">Did you complete 60 minutes?</div>
-      <div class="scale" id="scale-post-5">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-5',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-5',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-5',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-5',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-5',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Stopped before 20 mins</span>
-        <span class="scale-label">Yes — went beyond 60</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-5">
-        <div class="anchor-item"><span class="anchor-val">1</span>No — stopped before 20 mins</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>No — managed 20–40 mins</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>No — got to 40–55 mins</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Yes — exactly 60 mins</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Yes — went beyond 60 mins</div>
-      </div>
+      <div class="q-number">Q5</div><div class="q-text">Did you complete 60 minutes?</div>
+      <div class="scale" id="scale-post-5"><button class="scale-btn" onclick="sel('post-5',1)">1</button><button class="scale-btn" onclick="sel('post-5',2)">2</button><button class="scale-btn" onclick="sel('post-5',3)">3</button><button class="scale-btn" onclick="sel('post-5',4)">4</button><button class="scale-btn" onclick="sel('post-5',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Stopped before 20 mins</span><span class="scale-label">Yes — beyond 60</span></div>
+      <div class="anchor-box" id="anchor-post-5"><div class="anchor-item"><span class="anchor-val">1</span>No — stopped before 20 mins</div><div class="anchor-item"><span class="anchor-val">2</span>No — managed 20–40 mins</div><div class="anchor-item"><span class="anchor-val">3</span>No — got to 40–55 mins</div><div class="anchor-item"><span class="anchor-val">4</span>Yes — exactly 60 mins</div><div class="anchor-item"><span class="anchor-val">5</span>Yes — went beyond 60 mins</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q6</div>
-      <div class="q-text">How do you feel physically right now?</div>
-      <div class="scale" id="scale-post-6">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-6',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-6',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-6',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-6',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-6',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Wrecked, overdid it</span>
-        <span class="scale-label">Energised, better than before</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-6">
-        <div class="anchor-item"><span class="anchor-val">1</span>Wrecked, overdid it</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Heavy, took a lot out of me</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Worked, appropriately tired</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Strong, good kind of effort</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Energised, feel better than before I started</div>
-      </div>
+      <div class="q-number">Q6</div><div class="q-text">How do you feel physically right now?</div>
+      <div class="scale" id="scale-post-6"><button class="scale-btn" onclick="sel('post-6',1)">1</button><button class="scale-btn" onclick="sel('post-6',2)">2</button><button class="scale-btn" onclick="sel('post-6',3)">3</button><button class="scale-btn" onclick="sel('post-6',4)">4</button><button class="scale-btn" onclick="sel('post-6',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Wrecked</span><span class="scale-label">Energised</span></div>
+      <div class="anchor-box" id="anchor-post-6"><div class="anchor-item"><span class="anchor-val">1</span>Wrecked, overdid it</div><div class="anchor-item"><span class="anchor-val">2</span>Heavy, took a lot out of me</div><div class="anchor-item"><span class="anchor-val">3</span>Worked, appropriately tired</div><div class="anchor-item"><span class="anchor-val">4</span>Strong, good kind of effort</div><div class="anchor-item"><span class="anchor-val">5</span>Energised, feel better than before</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q7</div>
-      <div class="q-text">How did your energy shift during the session?</div>
-      <div class="scale" id="scale-post-7">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-7',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-7',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-7',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-7',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-7',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Dropped and never recovered</span>
-        <span class="scale-label">Clicked into flow</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-7">
-        <div class="anchor-item"><span class="anchor-val">1</span>Dropped and never recovered</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Struggled throughout</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Stayed flat, no real shift</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Built steadily as I went</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Clicked into flow, felt effortless by the end</div>
-      </div>
+      <div class="q-number">Q7</div><div class="q-text">How did your energy shift during the session?</div>
+      <div class="scale" id="scale-post-7"><button class="scale-btn" onclick="sel('post-7',1)">1</button><button class="scale-btn" onclick="sel('post-7',2)">2</button><button class="scale-btn" onclick="sel('post-7',3)">3</button><button class="scale-btn" onclick="sel('post-7',4)">4</button><button class="scale-btn" onclick="sel('post-7',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Dropped, never recovered</span><span class="scale-label">Clicked into flow</span></div>
+      <div class="anchor-box" id="anchor-post-7"><div class="anchor-item"><span class="anchor-val">1</span>Dropped and never recovered</div><div class="anchor-item"><span class="anchor-val">2</span>Struggled throughout</div><div class="anchor-item"><span class="anchor-val">3</span>Stayed flat, no real shift</div><div class="anchor-item"><span class="anchor-val">4</span>Built steadily as I went</div><div class="anchor-item"><span class="anchor-val">5</span>Clicked into flow, felt effortless by the end</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q8</div>
-      <div class="q-text">How did the 60 minutes feel subjectively?</div>
-      <div class="scale" id="scale-post-8">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-8',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-8',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-8',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-8',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-8',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Every minute was a battle</span>
-        <span class="scale-label">Flew by, could have kept going</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-8">
-        <div class="anchor-item"><span class="anchor-val">1</span>Every minute was a battle</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Long and heavy, had to push through</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Neither here nor there</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Passed reasonably well</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Flew by, could have kept going</div>
-      </div>
+      <div class="q-number">Q8</div><div class="q-text">How did the 60 minutes feel subjectively?</div>
+      <div class="scale" id="scale-post-8"><button class="scale-btn" onclick="sel('post-8',1)">1</button><button class="scale-btn" onclick="sel('post-8',2)">2</button><button class="scale-btn" onclick="sel('post-8',3)">3</button><button class="scale-btn" onclick="sel('post-8',4)">4</button><button class="scale-btn" onclick="sel('post-8',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Every minute a battle</span><span class="scale-label">Flew by</span></div>
+      <div class="anchor-box" id="anchor-post-8"><div class="anchor-item"><span class="anchor-val">1</span>Every minute was a battle</div><div class="anchor-item"><span class="anchor-val">2</span>Long and heavy, had to push through</div><div class="anchor-item"><span class="anchor-val">3</span>Neither here nor there</div><div class="anchor-item"><span class="anchor-val">4</span>Passed reasonably well</div><div class="anchor-item"><span class="anchor-val">5</span>Flew by, could have kept going</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q9</div>
-      <div class="q-text">How capable did you feel during the session?</div>
-      <div class="scale" id="scale-post-9">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-9',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-9',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-9',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-9',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-9',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">At my limit, nothing left</span>
-        <span class="scale-label">Well within myself</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-9">
-        <div class="anchor-item"><span class="anchor-val">1</span>At my limit, nothing left</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Near limit, very little in reserve</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Working hard but in control</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Comfortable with more available</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Well within myself, strong throughout</div>
-      </div>
+      <div class="q-number">Q9</div><div class="q-text">How capable did you feel during the session?</div>
+      <div class="scale" id="scale-post-9"><button class="scale-btn" onclick="sel('post-9',1)">1</button><button class="scale-btn" onclick="sel('post-9',2)">2</button><button class="scale-btn" onclick="sel('post-9',3)">3</button><button class="scale-btn" onclick="sel('post-9',4)">4</button><button class="scale-btn" onclick="sel('post-9',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">At my limit</span><span class="scale-label">Well within myself</span></div>
+      <div class="anchor-box" id="anchor-post-9"><div class="anchor-item"><span class="anchor-val">1</span>At my limit, nothing left</div><div class="anchor-item"><span class="anchor-val">2</span>Near limit, very little in reserve</div><div class="anchor-item"><span class="anchor-val">3</span>Working hard but in control</div><div class="anchor-item"><span class="anchor-val">4</span>Comfortable with more available</div><div class="anchor-item"><span class="anchor-val">5</span>Well within myself, strong throughout</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q10a</div>
-      <div class="q-text">Mental state during the session?</div>
-      <div class="scale" id="scale-post-10a">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-10a',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-10a',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-10a',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-10a',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-10a',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Wanted to quit the whole time</span>
-        <span class="scale-label">Locked in, mind and body aligned</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-10a">
-        <div class="anchor-item"><span class="anchor-val">1</span>Wanted to quit the whole time</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Mind was working against me</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Neutral, just getting it done</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Focused and present</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Locked in, mind and body aligned</div>
-      </div>
+      <div class="q-number">Q10a</div><div class="q-text">Mental state during the session?</div>
+      <div class="scale" id="scale-post-10a"><button class="scale-btn" onclick="sel('post-10a',1)">1</button><button class="scale-btn" onclick="sel('post-10a',2)">2</button><button class="scale-btn" onclick="sel('post-10a',3)">3</button><button class="scale-btn" onclick="sel('post-10a',4)">4</button><button class="scale-btn" onclick="sel('post-10a',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Wanted to quit</span><span class="scale-label">Locked in</span></div>
+      <div class="anchor-box" id="anchor-post-10a"><div class="anchor-item"><span class="anchor-val">1</span>Wanted to quit the whole time</div><div class="anchor-item"><span class="anchor-val">2</span>Mind was working against me</div><div class="anchor-item"><span class="anchor-val">3</span>Neutral, just getting it done</div><div class="anchor-item"><span class="anchor-val">4</span>Focused and present</div><div class="anchor-item"><span class="anchor-val">5</span>Locked in, mind and body aligned</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q10b</div>
-      <div class="q-text">Physical state during the session?</div>
-      <div class="scale" id="scale-post-10b">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-10b',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-10b',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-10b',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-10b',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-10b',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Body in distress, warning signals</span>
-        <span class="scale-label">Body felt strong throughout</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-10b">
-        <div class="anchor-item"><span class="anchor-val">1</span>Body was in distress, clear warning signals</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Struggling physically, near my limit</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Working hard but body was responding</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Physically comfortable, good response</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Body felt strong throughout, no resistance</div>
-      </div>
+      <div class="q-number">Q10b</div><div class="q-text">Physical state during the session?</div>
+      <div class="scale" id="scale-post-10b"><button class="scale-btn" onclick="sel('post-10b',1)">1</button><button class="scale-btn" onclick="sel('post-10b',2)">2</button><button class="scale-btn" onclick="sel('post-10b',3)">3</button><button class="scale-btn" onclick="sel('post-10b',4)">4</button><button class="scale-btn" onclick="sel('post-10b',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Body in distress</span><span class="scale-label">Body felt strong</span></div>
+      <div class="anchor-box" id="anchor-post-10b"><div class="anchor-item"><span class="anchor-val">1</span>Body was in distress, clear warning signals</div><div class="anchor-item"><span class="anchor-val">2</span>Struggling physically, near my limit</div><div class="anchor-item"><span class="anchor-val">3</span>Working hard but body was responding</div><div class="anchor-item"><span class="anchor-val">4</span>Physically comfortable, good response</div><div class="anchor-item"><span class="anchor-val">5</span>Body felt strong throughout, no resistance</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q11</div>
-      <div class="q-text">How hard was it to keep going once you started?</div>
-      <div class="scale" id="scale-post-11">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-11',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-11',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-11',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-11',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-11',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Nearly stopped multiple times</span>
-        <span class="scale-label">Momentum carried me</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-11">
-        <div class="anchor-item"><span class="anchor-val">1</span>Nearly stopped multiple times</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Had to negotiate with myself</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Required steady effort to continue</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Mostly self-sustaining once moving</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Momentum carried me, no battle</div>
-      </div>
+      <div class="q-number">Q11</div><div class="q-text">How hard was it to keep going once you started?</div>
+      <div class="scale" id="scale-post-11"><button class="scale-btn" onclick="sel('post-11',1)">1</button><button class="scale-btn" onclick="sel('post-11',2)">2</button><button class="scale-btn" onclick="sel('post-11',3)">3</button><button class="scale-btn" onclick="sel('post-11',4)">4</button><button class="scale-btn" onclick="sel('post-11',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Nearly stopped multiple times</span><span class="scale-label">Momentum carried me</span></div>
+      <div class="anchor-box" id="anchor-post-11"><div class="anchor-item"><span class="anchor-val">1</span>Nearly stopped multiple times</div><div class="anchor-item"><span class="anchor-val">2</span>Had to negotiate with myself</div><div class="anchor-item"><span class="anchor-val">3</span>Required steady effort to continue</div><div class="anchor-item"><span class="anchor-val">4</span>Mostly self-sustaining once moving</div><div class="anchor-item"><span class="anchor-val">5</span>Momentum carried me, no battle</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q12</div>
-      <div class="q-text">One word describing your state right now.</div>
+      <div class="q-number">Q12</div><div class="q-text">One word describing your state right now.</div>
       <input class="free-input" type="text" id="post-word" placeholder="e.g. invincible, drained, proud…" maxlength="30">
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q13</div>
-      <div class="q-text">How likely are you to show up tomorrow?</div>
-      <div class="scale" id="scale-post-13">
-        <button class="scale-btn" data-val="1" onclick="selectScale('post-13',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('post-13',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('post-13',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('post-13',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('post-13',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Genuinely uncertain</span>
-        <span class="scale-label">Nothing will stop me</span>
-      </div>
-      <div class="anchor-box" id="anchor-post-13">
-        <div class="anchor-item"><span class="anchor-val">1</span>Genuinely uncertain</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Leaning towards skipping</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>I'll probably do it</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Yes, plan is set</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Nothing will stop me</div>
-      </div>
+      <div class="q-number">Q13</div><div class="q-text">How likely are you to show up tomorrow?</div>
+      <div class="scale" id="scale-post-13"><button class="scale-btn" onclick="sel('post-13',1)">1</button><button class="scale-btn" onclick="sel('post-13',2)">2</button><button class="scale-btn" onclick="sel('post-13',3)">3</button><button class="scale-btn" onclick="sel('post-13',4)">4</button><button class="scale-btn" onclick="sel('post-13',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Genuinely uncertain</span><span class="scale-label">Nothing will stop me</span></div>
+      <div class="anchor-box" id="anchor-post-13"><div class="anchor-item"><span class="anchor-val">1</span>Genuinely uncertain</div><div class="anchor-item"><span class="anchor-val">2</span>Leaning towards skipping</div><div class="anchor-item"><span class="anchor-val">3</span>I'll probably do it</div><div class="anchor-item"><span class="anchor-val">4</span>Yes, plan is set</div><div class="anchor-item"><span class="anchor-val">5</span>Nothing will stop me</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q14</div>
-      <div class="q-text">Floors climbed — optional, self-reported.</div>
-      <input class="free-input" type="number" id="post-floors" placeholder="e.g. 40" min="0" max="500" style="width:120px;">
+      <div class="q-number">Q14</div><div class="q-text">Floors climbed — optional, self-reported.</div>
+      <input class="free-input" type="text" id="post-floors" placeholder="e.g. 9.5 laps · 12 floors" style="width:100%;">
     </div>
-
     <button class="submit-btn" onclick="saveSection('post')">Save post-session</button>
   </div>
 
-  <!-- END OF DAY -->
+  <!-- EOD -->
   <div class="view" id="view-eod">
     <div class="section-label">End of day — before bed</div>
-
     <div class="q-block">
-      <div class="q-number">Q15</div>
-      <div class="q-text">How was your energy across the rest of the day?</div>
-      <div class="scale" id="scale-eod-15">
-        <button class="scale-btn" data-val="1" onclick="selectScale('eod-15',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('eod-15',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('eod-15',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('eod-15',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('eod-15',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Wiped out, session cost me</span>
-        <span class="scale-label">Exceptional, best kind of day</span>
-      </div>
-      <div class="anchor-box" id="anchor-eod-15">
-        <div class="anchor-item"><span class="anchor-val">1</span>Wiped out, the session cost me</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Low, struggled to get going after</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Normal, no notable effect</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Good, session gave me a lift</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Exceptional, best kind of day</div>
-      </div>
+      <div class="q-number">Q15</div><div class="q-text">How was your energy across the rest of the day?</div>
+      <div class="scale" id="scale-eod-15"><button class="scale-btn" onclick="sel('eod-15',1)">1</button><button class="scale-btn" onclick="sel('eod-15',2)">2</button><button class="scale-btn" onclick="sel('eod-15',3)">3</button><button class="scale-btn" onclick="sel('eod-15',4)">4</button><button class="scale-btn" onclick="sel('eod-15',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Wiped out</span><span class="scale-label">Exceptional day</span></div>
+      <div class="anchor-box" id="anchor-eod-15"><div class="anchor-item"><span class="anchor-val">1</span>Wiped out, the session cost me</div><div class="anchor-item"><span class="anchor-val">2</span>Low, struggled to get going after</div><div class="anchor-item"><span class="anchor-val">3</span>Normal, no notable effect</div><div class="anchor-item"><span class="anchor-val">4</span>Good, session gave me a lift</div><div class="anchor-item"><span class="anchor-val">5</span>Exceptional, best kind of day</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q16</div>
-      <div class="q-text">How did the morning session affect your mood today?</div>
-      <div class="scale" id="scale-eod-16">
-        <button class="scale-btn" data-val="1" onclick="selectScale('eod-16',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('eod-16',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('eod-16',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('eod-16',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('eod-16',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Negatively, felt worse</span>
-        <span class="scale-label">Set the tone for everything</span>
-      </div>
-      <div class="anchor-box" id="anchor-eod-16">
-        <div class="anchor-item"><span class="anchor-val">1</span>Negatively, felt worse for it</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Slight drag on my mood</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Neutral, no real effect</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Positive lift, noticeable difference</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Set the tone for everything, felt great all day</div>
-      </div>
+      <div class="q-number">Q16</div><div class="q-text">How did the morning session affect your mood today?</div>
+      <div class="scale" id="scale-eod-16"><button class="scale-btn" onclick="sel('eod-16',1)">1</button><button class="scale-btn" onclick="sel('eod-16',2)">2</button><button class="scale-btn" onclick="sel('eod-16',3)">3</button><button class="scale-btn" onclick="sel('eod-16',4)">4</button><button class="scale-btn" onclick="sel('eod-16',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Negatively</span><span class="scale-label">Set the tone</span></div>
+      <div class="anchor-box" id="anchor-eod-16"><div class="anchor-item"><span class="anchor-val">1</span>Negatively, felt worse for it</div><div class="anchor-item"><span class="anchor-val">2</span>Slight drag on my mood</div><div class="anchor-item"><span class="anchor-val">3</span>Neutral, no real effect</div><div class="anchor-item"><span class="anchor-val">4</span>Positive lift, noticeable difference</div><div class="anchor-item"><span class="anchor-val">5</span>Set the tone for everything, felt great all day</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q17</div>
-      <div class="q-text">How did the session affect your focus and productivity?</div>
-      <div class="scale" id="scale-eod-17">
-        <button class="scale-btn" data-val="1" onclick="selectScale('eod-17',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('eod-17',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('eod-17',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('eod-17',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('eod-17',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Couldn't concentrate</span>
-        <span class="scale-label">Exceptional clarity</span>
-      </div>
-      <div class="anchor-box" id="anchor-eod-17">
-        <div class="anchor-item"><span class="anchor-val">1</span>Couldn't concentrate, too fatigued</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Below normal, session took something</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Normal day, no notable effect</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Sharper than usual, good headspace</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Exceptional clarity and output today</div>
-      </div>
+      <div class="q-number">Q17</div><div class="q-text">How did the session affect your focus and productivity?</div>
+      <div class="scale" id="scale-eod-17"><button class="scale-btn" onclick="sel('eod-17',1)">1</button><button class="scale-btn" onclick="sel('eod-17',2)">2</button><button class="scale-btn" onclick="sel('eod-17',3)">3</button><button class="scale-btn" onclick="sel('eod-17',4)">4</button><button class="scale-btn" onclick="sel('eod-17',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Couldn't concentrate</span><span class="scale-label">Exceptional clarity</span></div>
+      <div class="anchor-box" id="anchor-eod-17"><div class="anchor-item"><span class="anchor-val">1</span>Couldn't concentrate, too fatigued</div><div class="anchor-item"><span class="anchor-val">2</span>Below normal, session took something</div><div class="anchor-item"><span class="anchor-val">3</span>Normal day, no notable effect</div><div class="anchor-item"><span class="anchor-val">4</span>Sharper than usual, good headspace</div><div class="anchor-item"><span class="anchor-val">5</span>Exceptional clarity and output today</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q18</div>
-      <div class="q-text">How is your body feeling now, end of day?</div>
-      <div class="scale" id="scale-eod-18">
-        <button class="scale-btn" data-val="1" onclick="selectScale('eod-18',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('eod-18',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('eod-18',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('eod-18',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('eod-18',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Significant soreness or fatigue</span>
-        <span class="scale-label">Fresh, no negative feedback</span>
-      </div>
-      <div class="anchor-box" id="anchor-eod-18">
-        <div class="anchor-item"><span class="anchor-val">1</span>Significant soreness or fatigue</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Moderate, body is talking to me</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Mild, aware of the effort</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Good, normal recovery</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>Fresh, no negative physical feedback</div>
-      </div>
+      <div class="q-number">Q18</div><div class="q-text">How is your body feeling now, end of day?</div>
+      <div class="scale" id="scale-eod-18"><button class="scale-btn" onclick="sel('eod-18',1)">1</button><button class="scale-btn" onclick="sel('eod-18',2)">2</button><button class="scale-btn" onclick="sel('eod-18',3)">3</button><button class="scale-btn" onclick="sel('eod-18',4)">4</button><button class="scale-btn" onclick="sel('eod-18',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Significant soreness</span><span class="scale-label">Fresh</span></div>
+      <div class="anchor-box" id="anchor-eod-18"><div class="anchor-item"><span class="anchor-val">1</span>Significant soreness or fatigue</div><div class="anchor-item"><span class="anchor-val">2</span>Moderate, body is talking to me</div><div class="anchor-item"><span class="anchor-val">3</span>Mild, aware of the effort</div><div class="anchor-item"><span class="anchor-val">4</span>Good, normal recovery</div><div class="anchor-item"><span class="anchor-val">5</span>Fresh, no negative physical feedback</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q19</div>
-      <div class="q-text">In hindsight, how do you feel about today's session?</div>
-      <div class="scale" id="scale-eod-19">
-        <button class="scale-btn" data-val="1" onclick="selectScale('eod-19',1)">1</button>
-        <button class="scale-btn" data-val="2" onclick="selectScale('eod-19',2)">2</button>
-        <button class="scale-btn" data-val="3" onclick="selectScale('eod-19',3)">3</button>
-        <button class="scale-btn" data-val="4" onclick="selectScale('eod-19',4)">4</button>
-        <button class="scale-btn" data-val="5" onclick="selectScale('eod-19',5)">5</button>
-      </div>
-      <div class="scale-labels">
-        <span class="scale-label">Question if it was worth it</span>
-        <span class="scale-label">This is exactly why I do this</span>
-      </div>
-      <div class="anchor-box" id="anchor-eod-19">
-        <div class="anchor-item"><span class="anchor-val">1</span>Regret it or question whether it was worth it</div>
-        <div class="anchor-item"><span class="anchor-val">2</span>Indifferent, just a box ticked</div>
-        <div class="anchor-item"><span class="anchor-val">3</span>Satisfied, glad I did it</div>
-        <div class="anchor-item"><span class="anchor-val">4</span>Proud, it was a good effort</div>
-        <div class="anchor-item"><span class="anchor-val">5</span>This is exactly why I do this</div>
-      </div>
+      <div class="q-number">Q19</div><div class="q-text">In hindsight, how do you feel about today's session?</div>
+      <div class="scale" id="scale-eod-19"><button class="scale-btn" onclick="sel('eod-19',1)">1</button><button class="scale-btn" onclick="sel('eod-19',2)">2</button><button class="scale-btn" onclick="sel('eod-19',3)">3</button><button class="scale-btn" onclick="sel('eod-19',4)">4</button><button class="scale-btn" onclick="sel('eod-19',5)">5</button></div>
+      <div class="scale-labels"><span class="scale-label">Question if worth it</span><span class="scale-label">This is why I do this</span></div>
+      <div class="anchor-box" id="anchor-eod-19"><div class="anchor-item"><span class="anchor-val">1</span>Regret it or question whether it was worth it</div><div class="anchor-item"><span class="anchor-val">2</span>Indifferent, just a box ticked</div><div class="anchor-item"><span class="anchor-val">3</span>Satisfied, glad I did it</div><div class="anchor-item"><span class="anchor-val">4</span>Proud, it was a good effort</div><div class="anchor-item"><span class="anchor-val">5</span>This is exactly why I do this</div></div>
     </div>
-
     <div class="q-block">
-      <div class="q-number">Q20</div>
-      <div class="q-text">Anything you want to remember about today?</div>
+      <div class="q-number">Q20</div><div class="q-text">Anything you want to remember about today?</div>
       <textarea class="free-input" id="eod-note" rows="3" placeholder="Notes, observations, anything notable…"></textarea>
     </div>
-
     <button class="submit-btn" onclick="saveSection('eod')">Save end of day</button>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- DASH -->
   <div class="view" id="view-dash">
     <div class="section-label">21-day progress</div>
     <div class="dash-grid">
-      <div class="dash-card">
-        <div class="dash-card-label">Current Streak</div>
-        <div class="dash-card-value green" id="dash-streak">0</div>
-        <div class="dash-card-sub">days</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">Sessions Done</div>
-        <div class="dash-card-value" id="dash-done">0</div>
-        <div class="dash-card-sub">of 21</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">Avg Return Intent</div>
-        <div class="dash-card-value" id="dash-intent">—</div>
-        <div class="dash-card-sub">Q13 average</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">Avg Session Feel</div>
-        <div class="dash-card-value" id="dash-feel">—</div>
-        <div class="dash-card-sub">Q8 average</div>
-      </div>
+      <div class="dash-card"><div class="dash-card-label">Current Streak</div><div class="dash-card-value green" id="dash-streak">0</div><div class="dash-card-sub">days</div></div>
+      <div class="dash-card"><div class="dash-card-label">Sessions Done</div><div class="dash-card-value" id="dash-done">0</div><div class="dash-card-sub">of 21</div></div>
+      <div class="dash-card"><div class="dash-card-label">Avg Return Intent</div><div class="dash-card-value" id="dash-intent">—</div><div class="dash-card-sub">Q13 average</div></div>
+      <div class="dash-card"><div class="dash-card-label">Avg Session Feel</div><div class="dash-card-value" id="dash-feel">—</div><div class="dash-card-sub">Q8 average</div></div>
     </div>
     <div class="trend-row" id="trend-row"></div>
     <div class="sessions-label">Session log</div>
     <div id="session-list"></div>
     <button class="export-btn" onclick="exportData()">Export data as JSON</button>
   </div>
-
-</div>
-
-<!-- Install prompt -->
-<div class="install-bar hidden" id="installBar">
-  <div class="install-text">Add stepUP21 to your home screen</div>
-  <button class="install-btn" onclick="doInstall()">Install</button>
-  <button class="install-dismiss" onclick="dismissInstall()">×</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -827,197 +252,72 @@
 <script>
   const CHALLENGE_START = new Date('2025-10-01');
   const STORAGE_KEY = 'stepup21_data';
-  let selections = {};
-  let deferredPrompt = null;
+  let S = {};
+  let data = (() => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {sessions:[]}; } catch(e) { return {sessions:[]}; } })();
 
-  let data = (() => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { sessions: [] }; }
-    catch(e) { return { sessions: [] }; }
-  })();
-
-  function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
   function todayKey() { return new Date().toISOString().split('T')[0]; }
+  function getOrCreate(dk) { let s = data.sessions.find(s=>s.date===dk); if(!s){s={date:dk};data.sessions.push(s);} return s; }
 
-  function getOrCreateSession(dateKey) {
-    let s = data.sessions.find(s => s.date === dateKey);
-    if (!s) { s = { date: dateKey }; data.sessions.push(s); }
-    return s;
-  }
-
-  function selectScale(id, val) {
-    selections[id] = val;
-    document.getElementById('scale-' + id).querySelectorAll('.scale-btn').forEach(btn => {
-      btn.classList.toggle('selected', parseInt(btn.dataset.val) === val);
-    });
-    const anchor = document.getElementById('anchor-' + id);
-    if (anchor) anchor.classList.add('visible');
+  function sel(id, val) {
+    S[id] = val;
+    document.getElementById('scale-'+id).querySelectorAll('.scale-btn').forEach((b,i) => b.classList.toggle('selected', i+1===val));
+    const a = document.getElementById('anchor-'+id);
+    if(a) a.classList.add('visible');
   }
 
   function switchView(name) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('view-' + name).classList.add('active');
-    document.querySelector(`[data-view="${name}"]`).classList.add('active');
-    if (name === 'dash') renderDashboard();
-    window.scrollTo(0, 0);
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('view-'+name).classList.add('active');
+    document.querySelector('[data-view="'+name+'"]').classList.add('active');
+    if(name==='dash') renderDash();
+    window.scrollTo(0,0);
   }
 
-  function saveSection(section) {
-    const key = todayKey();
-    const session = getOrCreateSession(key);
-    if (section === 'pre') {
-      session.pre = {
-        sleep: selections['pre-1'] || null,
-        energy: selections['pre-2'] || null,
-        readiness: selections['pre-3'] || null,
-        word: document.getElementById('pre-word').value.trim() || null,
-        timestamp: new Date().toISOString()
-      };
-    }
-    if (section === 'post') {
-      session.post = {
-        completion: selections['post-5'] || null,
-        physicalFeel: selections['post-6'] || null,
-        energyShift: selections['post-7'] || null,
-        timeFeel: selections['post-8'] || null,
-        capability: selections['post-9'] || null,
-        mentalState: selections['post-10a'] || null,
-        physicalState: selections['post-10b'] || null,
-        continuity: selections['post-11'] || null,
-        word: document.getElementById('post-word').value.trim() || null,
-        returnIntent: selections['post-13'] || null,
-        floors: document.getElementById('post-floors').value || null,
-        timestamp: new Date().toISOString()
-      };
-    }
-    if (section === 'eod') {
-      session.eod = {
-        dayEnergy: selections['eod-15'] || null,
-        moodEffect: selections['eod-16'] || null,
-        focusEffect: selections['eod-17'] || null,
-        bodyEOD: selections['eod-18'] || null,
-        hindsight: selections['eod-19'] || null,
-        note: document.getElementById('eod-note').value.trim() || null,
-        timestamp: new Date().toISOString()
-      };
-    }
-    saveData();
-    showToast(section === 'pre' ? 'Saved — go climb' : section === 'post' ? 'Post-session saved' : 'Day complete', true);
-    if (section === 'pre') setTimeout(() => switchView('post'), 1200);
-    if (section === 'post') setTimeout(() => switchView('eod'), 1200);
+  function saveSection(sec) {
+    const dk = todayKey();
+    const session = getOrCreate(dk);
+    if(sec==='pre') session.pre = {sleep:S['pre-1']||null,energy:S['pre-2']||null,readiness:S['pre-3']||null,word:document.getElementById('pre-word').value.trim()||null,ts:new Date().toISOString()};
+    if(sec==='post') session.post = {completion:S['post-5']||null,physicalFeel:S['post-6']||null,energyShift:S['post-7']||null,timeFeel:S['post-8']||null,capability:S['post-9']||null,mentalState:S['post-10a']||null,physicalState:S['post-10b']||null,continuity:S['post-11']||null,word:document.getElementById('post-word').value.trim()||null,returnIntent:S['post-13']||null,floors:document.getElementById('post-floors').value||null,ts:new Date().toISOString()};
+    if(sec==='eod') session.eod = {dayEnergy:S['eod-15']||null,moodEffect:S['eod-16']||null,focusEffect:S['eod-17']||null,bodyEOD:S['eod-18']||null,hindsight:S['eod-19']||null,note:document.getElementById('eod-note').value.trim()||null,ts:new Date().toISOString()};
+    save();
+    toast(sec==='pre'?'Saved — go climb':sec==='post'?'Post-session saved':'Day complete', true);
+    if(sec==='pre') setTimeout(()=>switchView('post'),1200);
+    if(sec==='post') setTimeout(()=>switchView('eod'),1200);
   }
 
-  function renderDashboard() {
-    const completed = data.sessions.filter(s => s.post && s.post.completion >= 4);
+  function renderDash() {
+    const completed = data.sessions.filter(s=>s.post&&s.post.completion>=4);
     const streak = calcStreak();
-    const intents = data.sessions.filter(s => s.post && s.post.returnIntent).map(s => s.post.returnIntent);
-    const feels = data.sessions.filter(s => s.post && s.post.timeFeel).map(s => s.post.timeFeel);
+    const intents = data.sessions.filter(s=>s.post&&s.post.returnIntent).map(s=>s.post.returnIntent);
+    const feels = data.sessions.filter(s=>s.post&&s.post.timeFeel).map(s=>s.post.timeFeel);
     document.getElementById('dash-streak').textContent = streak;
     document.getElementById('dash-done').textContent = completed.length;
-    document.getElementById('dash-intent').textContent = intents.length ? (intents.reduce((a,b)=>a+b,0)/intents.length).toFixed(1) : '—';
-    document.getElementById('dash-feel').textContent = feels.length ? (feels.reduce((a,b)=>a+b,0)/feels.length).toFixed(1) : '—';
-
-    const trendRow = document.getElementById('trend-row');
-    trendRow.innerHTML = '';
+    document.getElementById('dash-intent').textContent = intents.length?(intents.reduce((a,b)=>a+b,0)/intents.length).toFixed(1):'—';
+    document.getElementById('dash-feel').textContent = feels.length?(feels.reduce((a,b)=>a+b,0)/feels.length).toFixed(1):'—';
+    const tr = document.getElementById('trend-row'); tr.innerHTML='';
     const today = todayKey();
-    for (let i = 0; i < 21; i++) {
-      const d = new Date(CHALLENGE_START);
-      d.setDate(d.getDate() + i);
-      const dk = d.toISOString().split('T')[0];
-      const s = data.sessions.find(s => s.date === dk);
-      const cell = document.createElement('div');
-      cell.className = 'trend-cell';
-      if (s && s.post && s.post.completion >= 4) cell.classList.add('done');
-      else if (dk < today && (!s || !s.post)) cell.classList.add('missed');
-      trendRow.appendChild(cell);
-    }
-
+    for(let i=0;i<21;i++){const d=new Date(CHALLENGE_START);d.setDate(d.getDate()+i);const dk=d.toISOString().split('T')[0];const s=data.sessions.find(s=>s.date===dk);const c=document.createElement('div');c.className='trend-cell';if(s&&s.post&&s.post.completion>=4)c.classList.add('done');else if(dk<today&&(!s||!s.post))c.classList.add('missed');tr.appendChild(c);}
     const list = document.getElementById('session-list');
-    if (!data.sessions.length) {
-      list.innerHTML = '<div class="empty"><div class="empty-icon">↑</div>No sessions yet.<br>Start your first session above.</div>';
-      return;
-    }
-    const sorted = [...data.sessions].sort((a,b) => b.date.localeCompare(a.date));
-    list.innerHTML = sorted.map(s => {
-      const dayNum = Math.floor((new Date(s.date) - CHALLENGE_START) / 86400000) + 1;
-      const complete = s.post && s.post.completion >= 4;
-      const dotClass = complete ? 'complete' : (s.post ? 'incomplete' : 'pending');
-      const intent = s.post && s.post.returnIntent ? `Q13: ${s.post.returnIntent}` : '';
-      const word = s.post && s.post.word ? `· ${s.post.word}` : '';
-      return `<div class="session-row">
-        <div class="session-day">D${dayNum > 0 ? dayNum : '?'}</div>
-        <div class="session-dot ${dotClass}"></div>
-        <div class="session-meta">${s.date} ${word}</div>
-        <div class="session-score">${intent}</div>
-      </div>`;
+    if(!data.sessions.length){list.innerHTML='<div class="empty"><div class="empty-icon">↑</div>No sessions yet.</div>';return;}
+    list.innerHTML=[...data.sessions].sort((a,b)=>b.date.localeCompare(a.date)).map(s=>{
+      const dn=Math.floor((new Date(s.date)-CHALLENGE_START)/86400000)+1;
+      const ok=s.post&&s.post.completion>=4;
+      const dot=ok?'complete':(s.post?'incomplete':'pending');
+      const intent=s.post&&s.post.returnIntent?'Q13: '+s.post.returnIntent:'';
+      const word=s.post&&s.post.word?'· '+s.post.word:'';
+      return `<div class="session-row"><div class="session-day">D${dn>0?dn:'?'}</div><div class="session-dot ${dot}"></div><div class="session-meta">${s.date} ${word}</div><div class="session-score">${intent}</div></div>`;
     }).join('');
   }
 
-  function calcStreak() {
-    let streak = 0;
-    let d = new Date();
-    d.setHours(0,0,0,0);
-    while (true) {
-      const dk = d.toISOString().split('T')[0];
-      const s = data.sessions.find(s => s.date === dk);
-      if (s && s.post && s.post.completion >= 4) { streak++; d.setDate(d.getDate()-1); }
-      else break;
-    }
-    return streak;
-  }
+  function calcStreak(){let n=0,d=new Date();d.setHours(0,0,0,0);while(true){const dk=d.toISOString().split('T')[0];const s=data.sessions.find(s=>s.date===dk);if(s&&s.post&&s.post.completion>=4){n++;d.setDate(d.getDate()-1);}else break;}return n;}
 
-  function exportData() {
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `stepup21-${todayKey()}.json`; a.click();
-    URL.revokeObjectURL(url);
-    showToast('Data exported');
-  }
+  function exportData(){const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='stepup21-'+todayKey()+'.json';a.click();URL.revokeObjectURL(u);toast('Exported');}
 
-  function showToast(msg, success=false) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast' + (success ? ' success' : '');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
-  }
+  function toast(msg,ok=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(ok?' success':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 
-  // PWA install
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('installBar').classList.remove('hidden');
-  });
-
-  function doInstall() {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-      dismissInstall();
-    });
-  }
-
-  function dismissInstall() {
-    document.getElementById('installBar').classList.add('hidden');
-  }
-
-  // Header
-  function updateHeader() {
-    const today = new Date();
-    const dayNum = Math.floor((today - CHALLENGE_START) / 86400000) + 1;
-    const dateStr = today.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'});
-    document.getElementById('headerDate').textContent = dateStr;
-    const streak = calcStreak();
-    const inChallenge = dayNum >= 1 && dayNum <= 21;
-    document.getElementById('streakPill').textContent = inChallenge ? `Day ${dayNum} · ${streak} streak` : `${streak} streak`;
-  }
-
-  // Register service worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  }
+  function updateHeader(){const today=new Date();const dn=Math.floor((today-CHALLENGE_START)/86400000)+1;document.getElementById('headerDate').textContent=today.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});const streak=calcStreak();document.getElementById('streakPill').textContent=(dn>=1&&dn<=21)?'Day '+dn+' · '+streak+' streak':streak+' streak';}
 
   updateHeader();
 </script>
